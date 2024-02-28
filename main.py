@@ -5,19 +5,16 @@ from PIL import Image
 from tqdm import tqdm
 from torchvision import transforms
 
-#from torchvision.models import mobilenet_v3_small, MobileNet_V3_Small_Weights
 from torchvision.models import resnet50, ResNet50_Weights
 from dataset_processor import GenericSimpleOneHotDataset
-#from models import SimpleCNN
 
 torch.set_num_threads(2)
 
 if __name__ == '__main__' :
 
-    total_epochs = 50
-    batch_size   = 100
+    total_epochs = 10
+    batch_size   = 10
 
-    #model = SimpleCNN()
     model_weights = ResNet50_Weights.IMAGENET1K_V1
     model = resnet50(weights = model_weights)
     model.classifier = torch.nn.Sequential(
@@ -37,7 +34,9 @@ if __name__ == '__main__' :
     testing_dataset = GenericSimpleOneHotDataset('./Dataset/test', augmentation = transform_functions)
 
     print(len(validation_dataset), len(training_dataset), len(testing_dataset))
-
+    
+    #code from stackoverflow
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
     validation_datasetloader = torch.utils.data.DataLoader(validation_dataset, batch_size = 1, shuffle = True, num_workers = 1)
     training_datasetloader = torch.utils.data.DataLoader(training_dataset, batch_size = batch_size, shuffle = True, num_workers = 1)
@@ -48,6 +47,12 @@ if __name__ == '__main__' :
     for epoch in range(total_epochs):
         print("Epoch :", epoch)
         
+        #code from stackoverflow
+        for (image, label) in tqdm(training_datasetloader):
+           batch_size = len(image)
+           image = image.to(device=device)
+           label = torch.ones((batch_size, 1)).to(device=device)
+
         # Training Loop
         model.train()  # set the model to train
         epoch_training_loss = []
