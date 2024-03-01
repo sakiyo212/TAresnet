@@ -36,7 +36,7 @@ if __name__ == '__main__' :
     print(len(validation_dataset), len(training_dataset), len(testing_dataset))
     
     #code from stackoverflow
-    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    #device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
     validation_datasetloader = torch.utils.data.DataLoader(validation_dataset, batch_size = 1, shuffle = True, num_workers = 1)
     training_datasetloader = torch.utils.data.DataLoader(training_dataset, batch_size = batch_size, shuffle = True, num_workers = 1)
@@ -47,12 +47,12 @@ if __name__ == '__main__' :
     for epoch in range(total_epochs):
         print("Epoch :", epoch)
         
-        #code from stackoverflow
-        for (image, label) in tqdm(training_datasetloader):
-           batch_size = len(image)
-           image = image.to(device=device)
-           label = torch.ones((batch_size, 1)).to(device=device)
-
+        #code from stackoverflow that i tried to implement for some solutions but doesn't work
+        #for (image, label) in tqdm(training_datasetloader):
+        #   batch_size = len(image)
+        #   image = image.to(device=device)
+        #   label = torch.ones((batch_size, 1)).to(device=device)
+        
         # Training Loop
         model.train()  # set the model to train
         epoch_training_loss = []
