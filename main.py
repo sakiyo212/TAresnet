@@ -17,10 +17,10 @@ if __name__ == '__main__' :
 
     model_weights = ResNet50_Weights.IMAGENET1K_V1
     model = resnet50(weights = model_weights)
-    model.classifier = torch.nn.Sequential(
-        torch.nn.Linear(576, 258),
-        torch.nn.LeakyReLU(),
-        torch.nn.Linear(258, 3),
+    model.fc = torch.nn.Sequential(
+        torch.nn.Linear(2048, 512),
+        torch.nn.ReLU(),
+        torch.nn.Linear(512, 3),
         torch.nn.Sigmoid()
     )
     
@@ -46,12 +46,6 @@ if __name__ == '__main__' :
 
     for epoch in range(total_epochs):
         print("Epoch :", epoch)
-        
-        #code from stackoverflow that i tried to implement for some solutions but doesn't work
-        #for (image, label) in tqdm(training_datasetloader):
-        #   batch_size = len(image)
-        #   image = image.to(device=device)
-        #   label = torch.ones((batch_size, 1)).to(device=device)
         
         # Training Loop
         model.train()  # set the model to train
