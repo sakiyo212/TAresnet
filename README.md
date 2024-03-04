@@ -9,7 +9,9 @@ Deskripsi folder "evaluation"
 Berisi kode singkat untuk load model yang telah di train, dan mengetes dengan salah satu gambar dari dataset
 
 Progress:
+Able to train the model and reached 65% accuracy
 Current model when exported to classify an image, give out numerical output (float)
 
 To Do:
-Interpret the output into readable results
+1. Interpret the output from the model into readable results
+2. Improve the model's accuracy
