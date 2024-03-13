@@ -21,7 +21,7 @@ model.load_state_dict(torch.load('bestmodel.pth'))
 
 transform = model_weights.transforms()
 
-img = Image.open('461.png')
+img = Image.open('646.png')
 img = transforms.ToTensor()(img)
 img = img.repeat(3, 1, 1)
 #img = self.augmentation(img)
@@ -45,4 +45,4 @@ elif (predicted_classes == nonProliferatik).all():
 elif (predicted_classes == Proliferatik).all():
     hasil = "Diabetes Proliferatik"
     
-print(output)
+print(hasil)

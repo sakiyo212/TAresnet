@@ -25,7 +25,7 @@ if __name__ == '__main__' :
     )
     
     optimizer = torch.optim.AdamW(model.parameters(), lr = 0.0001)
-    lossFunction = torch.nn.BCELoss()
+    lossFunction = torch.nn.CrossEntropyLoss()
 
     transform_functions = model_weights.transforms()
 
