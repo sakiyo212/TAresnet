@@ -12,8 +12,8 @@ torch.set_num_threads(2)
 
 if __name__ == '__main__' :
 
-    total_epochs = 10
-    batch_size   = 10
+    total_epochs = 50
+    batch_size   = 16
 
     model_weights = ResNet50_Weights.IMAGENET1K_V1
     model = resnet50(weights = model_weights)
@@ -36,14 +36,15 @@ if __name__ == '__main__' :
     print(len(validation_dataset), len(training_dataset), len(testing_dataset))
     
     #code from stackoverflow
-    #device = 'cuda' if torch.cuda.is_available() else 'cpu'
-
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    print(torch.cuda.is_available())
     validation_datasetloader = torch.utils.data.DataLoader(validation_dataset, batch_size = 1, shuffle = True, num_workers = 1)
     training_datasetloader = torch.utils.data.DataLoader(training_dataset, batch_size = batch_size, shuffle = True, num_workers = 1)
     testing_datasetloader = torch.utils.data.DataLoader(testing_dataset, batch_size = 1, shuffle = True, num_workers = 1)
 
-    best_acc = 0.0 
+    model = model.to(device=device)
 
+    best_acc = 0.0 
     for epoch in range(total_epochs):
         print("Epoch :", epoch)
         
@@ -51,6 +52,8 @@ if __name__ == '__main__' :
         model.train()  # set the model to train
         epoch_training_loss = []
         for (image, label) in tqdm(training_datasetloader):
+            image = image.to(device=device)
+            label = label.to(device=device)
             output = model(image)
             loss = lossFunction(output, label)
             loss.backward()
@@ -65,6 +68,8 @@ if __name__ == '__main__' :
         correct_counter = 0
         false_counter   = 0
         for (image, label) in tqdm(validation_datasetloader):
+            image = image.to(device=device)
+            label = label.to(device=device)
             output = model(image)
             argmx = torch.argmax(output, dim = 1)
             oneHt = torch.zeros_like(output).scatter_(1, argmx.unsqueeze(1), 1.)
@@ -89,6 +94,8 @@ if __name__ == '__main__' :
     correct_counter = 0
     false_counter   = 0
     for (image, label) in tqdm(testing_datasetloader):
+        image = image.to(device=device)
+        label = label.to(device=device)
         output = model(image)
         argmx = torch.argmax(output, dim = 1)
         oneHt = torch.zeros_like(output).scatter_(1, argmx.unsqueeze(1), 1.)

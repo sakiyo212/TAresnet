@@ -3,7 +3,7 @@ import shutil
 from random import shuffle
 
 # Define paths
-dataset_dir = "FullDataset"
+dataset_dir = "FullDataset/a. Training Set"
 train_dir = os.path.join(dataset_dir, "train")
 val_dir = os.path.join(dataset_dir, "validation")
 test_dir = os.path.join(dataset_dir, "test")
@@ -14,9 +14,9 @@ os.makedirs(val_dir, exist_ok=True)
 os.makedirs(test_dir, exist_ok=True)
 
 # Define proportions
-train_proportion = 0.8
-val_proportion = 0.1
-test_proportion = 0.1
+train_proportion = 0.6
+val_proportion = 0.2
+test_proportion = 0.2
 
 # List all files by folder
 files_by_folder = {
